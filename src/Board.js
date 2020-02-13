@@ -6,28 +6,26 @@ class Board extends React.Component {
     render() {
         return (
             <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+                {Array(3).fill(null).map((item, index) => {
+                    return this.renderBoardRow(index * 3);
+                })}
             </div>
         );
     }
 
-    renderSquare(squareIndex) {
+    renderBoardRow(lineIndex) {
         return (
-            <Square
+            <div className="board-row" key={lineIndex}>
+                {Array(3).fill(null).map((item, index) => {
+                    return this.renderBoardSquare(lineIndex + index);
+                })}
+            </div>
+        );
+    }
+
+    renderBoardSquare(squareIndex) {
+        return (
+            <Square key={squareIndex}
                 squareLabel={this.props.squares[squareIndex]}
                 doPlayerMovement={() => this.props.doPlayerMovement(squareIndex)}
             />
