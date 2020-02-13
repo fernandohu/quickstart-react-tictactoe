@@ -5,8 +5,8 @@ function Square(props) {
         <button
             className="square"
             onClick={props.doPlayerMovement}
+            dangerouslySetInnerHTML={{__html:props.squareLabel}}
         >
-            {props.squareLabel}
         </button>
     );
 }
