@@ -31,9 +31,9 @@ class Game extends React.Component {
                                 type="checkbox"
                                 checked={this.state.reverse}
                                 onChange={this.reverseClick}
-                                id="reverse" />reverse?)
+                                id="reverse" /><label htmlFor="reverse">reverse?</label>)
                         </p>
-                        <ol>{this.getMovesListHistory()}</ol>
+                        <ol reversed={this.state.reverse}>{this.getMovesListHistory()}</ol>
                     </div>
                 </div>
             </div>
@@ -44,20 +44,20 @@ class Game extends React.Component {
         return highlightWinnerIfAny(this.state.history[this.state.stepNumber].squares, 'square-winner');
     }
 
-    doPlayerMovement(i) {
+    doPlayerMovement(moveIndex) {
         const historyCopy = this.state.history.slice(0, this.state.stepNumber + 1);
         const currentHistory = historyCopy[historyCopy.length - 1];
         const currentSquares = currentHistory.squares.slice();
 
-        if (calculateWinner(currentSquares) || currentSquares[i]) {
+        if (calculateWinner(currentSquares) || currentSquares[moveIndex]) {
             return;
         }
 
-        currentSquares[i] = this.state.xIsNext ? 'X' : 'O';
+        currentSquares[moveIndex] = this.state.xIsNext ? 'X' : 'O';
 
         const newState = {
             history: historyCopy.concat({
-                movePosition: getPositionFromIndex(i),
+                movePosition: getPositionFromIndex(moveIndex),
                 squares: currentSquares
             }),
             stepNumber: historyCopy.length,
@@ -75,9 +75,9 @@ class Game extends React.Component {
                 return '<span class="description winner">Draw: No winner!</span>';
             case 'O':
             case 'X':
-                return '<span class="description winner">Winner: ' + (winner == 'X' ? 'Player 1' : 'Player 2') + '</span>';
+                return '<span class="description winner">Winner: ' + (winner == 'X' ? 'Player 1 (X)' : 'Player 2 (O)') + '</span>';
             default:
-                return '<span class="description"><u>Next</u>: ' + (((this.state.xIsNext) ? 'Player 1' : 'Player 2') + '</span>');
+                return '<span class="description"><u>Next</u>: ' + (((this.state.xIsNext) ? 'Player 1 (X)' : 'Player 2 (O)') + '</span>');
         }
     }
 
